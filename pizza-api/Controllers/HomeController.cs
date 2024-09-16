@@ -9,7 +9,7 @@ namespace pizza_api.Controllers
         [HttpGet(Name = "home")]
         public string Index()
         {
-            return "hellow 1";
+            return "hellow 3";
         }
     }
 }
