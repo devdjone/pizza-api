@@ -7,6 +7,7 @@
     <RootNamespace>pizza_api</RootNamespace>
     <UserSecretsId>798bdcbb-0fd8-4c85-90dd-b16bea315241</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  
   </PropertyGroup>
 
   <ItemGroup>
