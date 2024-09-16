@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 //builder.Configuration.AddEnvironmentVariables();
 
 
-builder.WebHost.UseUrls("http://*:8080");
+//builder.WebHost.UseUrls("http://*:8080");
 
 var app = builder.Build();
 
