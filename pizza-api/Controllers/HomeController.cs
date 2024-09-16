@@ -6,7 +6,7 @@ namespace pizza_api.Controllers
     [Route("[controller]")]
     public class HomeController : Controller
     {
-        [HttpGet(Name = "home")]
+        [HttpGet(Name = "GetHome")]
         public string Index()
         {
             return "hellow 4";
