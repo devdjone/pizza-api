@@ -34,7 +34,7 @@ namespace pizza_api.Controllers
         [Route("ola")]
         public string GetOla()
         {
-            return "ola 1";
+            return "ola 2";
         }
     }
 }
