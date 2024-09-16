@@ -28,7 +28,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 //https://dontpaniclabs.com/blog/post/2023/03/02/how-to-set-up-user-secrets-for-net-core-projects-in-visual-studio/#:~:text=To%20generate%20your%20user%20secrets,use%20should%20be%20stored%20here.
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
