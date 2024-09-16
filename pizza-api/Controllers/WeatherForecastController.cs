@@ -29,5 +29,12 @@ namespace pizza_api.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet]
+        [Route("ola")]
+        public string GetOla()
+        {
+            return "ola 1";
+        }
     }
 }
