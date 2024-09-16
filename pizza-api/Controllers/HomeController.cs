@@ -4,7 +4,7 @@ namespace pizza_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         [HttpGet(Name = "GetHome")]
         public string Index()
