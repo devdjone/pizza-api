@@ -36,5 +36,7 @@ namespace pizza_api.Controllers
         {
             return "ola 2";
         }
+
+        //cname entry to map openshift to nice name for your app
     }
 }
