@@ -24,7 +24,15 @@ namespace pizza_api.Controllers
         [HttpGet(Name = "pizza")]
         public async Task<List<Pizza>> Index()
         {
-            return await _context.Pizza.ToListAsync();
+            //return await _context.Pizza.ToListAsync();
+            var p = new Pizza();
+            p.Id = 1;
+            p.Name = "peperon";
+            p.Qty = 5;
+
+            var list = new List<Pizza>();
+            list.Add(p);
+            return list;
         }
 
 
