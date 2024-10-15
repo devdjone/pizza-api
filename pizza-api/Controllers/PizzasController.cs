@@ -27,11 +27,16 @@ namespace pizza_api.Controllers
             return await _context.Pizza.ToListAsync();
         }
 
-        
 
+        //[HttpGet(Name = "pizza/my")]
         
- 
+        //public string order()
+        //{
+        //    return "order pizza";
+        //}
 
-        
+
+
+
     }
 }
