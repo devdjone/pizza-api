@@ -1,6 +1,11 @@
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using pizza_api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<pizza_apiContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("pizza_apiContext") ?? throw new InvalidOperationException("Connection string 'pizza_apiContext' not found.")));
 
 // Add services to the container.
 
@@ -17,7 +22,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
