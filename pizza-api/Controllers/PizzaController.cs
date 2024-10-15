@@ -21,10 +21,11 @@ namespace pizza_api.Controllers
             _context = context;
         }
 
-        //[HttpGet(Name = "pizza")]
-        [HttpGet()]
+        [HttpGet(Name = "Index2")]
+
         public async Task<List<Pizza>> Index()
         {
+            await Task.Delay(0);
             //return await _context.Pizza.ToListAsync();
             var p = new Pizza();
             p.Id = 1;
