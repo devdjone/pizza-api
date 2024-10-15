@@ -12,16 +12,17 @@ namespace pizza_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PizzasController : ControllerBase  
+    public class PizzaController : ControllerBase  
     {
         private readonly pizza_apiContext _context;
 
-        public PizzasController(pizza_apiContext context)
+        public PizzaController(pizza_apiContext context)
         {
             _context = context;
         }
 
-        [HttpGet(Name = "pizza")]
+        //[HttpGet(Name = "pizza")]
+        [HttpGet()]
         public async Task<List<Pizza>> Index()
         {
             //return await _context.Pizza.ToListAsync();
