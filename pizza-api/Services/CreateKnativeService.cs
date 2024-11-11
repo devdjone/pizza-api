@@ -42,7 +42,7 @@ namespace pizza_api.Services
                 }
             };
 
-            // Create the Knative Service
+            // Create the Knative Service s sdfsd 
             await client.CreateNamespacedCustomObjectAsync(
                 knativeService,
                 "serving.knative.dev",
