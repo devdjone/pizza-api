@@ -7,6 +7,6 @@
         public string Name { get; set; } = default!;
 
 
-        public int Qty { get; set; }
+        public int Qty { get; set; }  //test
     }
 }
