@@ -14,7 +14,7 @@ namespace pizza_api.Controllers
         public  async Task<string> Index()
         {
             string campaignName = "B";
-            var newCampaign = new CreateKnativeService();
+            var newCampaign = new KnativeServiceCreator();
 
             await newCampaign.CreateAsync(campaignName);
             return $"add campaign: {campaignName}";

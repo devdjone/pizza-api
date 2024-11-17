@@ -67,7 +67,7 @@ namespace pizza_api.Services
                 metadata = new
                 {
                     name = $"campaign-processor-{campaignId}",
-                    @namespace = "default"
+                    @namespace = "pizza-app"
                 },
                 spec = new
                 {
@@ -88,7 +88,7 @@ namespace pizza_api.Services
                         new
                         {
                             name = "campaign-processor",
-                            image = "your-docker-registry/campaign-processor:latest",
+                            image = "image-registry.openshift-image-registry.svc:5000/pizza-app/pizza-margarita:latest",
                             env = new[]
                             {
                                 new { name = "CAMPAIGN_ID", value = campaignId }
