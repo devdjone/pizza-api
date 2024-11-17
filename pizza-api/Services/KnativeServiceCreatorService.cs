@@ -86,14 +86,23 @@ public class KnativeServiceCreator
             }
         };
 
-        // Use CreateNamespacedCustomObjectAsync to create the Knative service
-        await _client.CreateNamespacedCustomObjectAsync(
-            knativeService,
-            "serving.knative.dev",   // Group
-            "v1",                    // Version
-            "pizza-app",             // Namespace
-            "services",              // Resource (Kind)
-            null);                   // Optionally, specify other parameters like `body`, if needed
+
+        var response = await _client.CreateNamespacedCustomObjectAsync(
+                    body: knativeService,
+                    group: "serving.knative.dev",
+                    version: "v1",
+                    namespaceParameter: "pizza-app",
+                    plural: "services"
+                );
+
+            //// Use CreateNamespacedCustomObjectAsync to create the Knative service
+            //await _client.CreateNamespacedCustomObjectAsync(
+            //knativeService,
+            //"serving.knative.dev",   // Group
+            //"v1",                    // Version
+            //"pizza-app",             // Namespace
+            //"services",              // Resource (Kind)
+            //null);                   // Optionally, specify other parameters like `body`, if needed
     }
 }
 }
