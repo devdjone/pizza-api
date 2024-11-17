@@ -39,7 +39,8 @@ public class KnativeServiceCreator
                         annotations = new Dictionary<string, string>
                         {
                             { "autoscaling.knative.dev/minScale", "1" },
-                            { "autoscaling.knative.dev/maxScale", "3" }
+                            { "autoscaling.knative.dev/maxScale", "3" },
+                            { "app.kubernetes.io/part-of", "sms-campaign-processors" }
                         }
                     },
                     spec = new
