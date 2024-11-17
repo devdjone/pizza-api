@@ -13,7 +13,7 @@ namespace pizza_api.Controllers
         [HttpGet(Name = "GetIndexDD")]
         public  async Task<string> Index()
         {
-            string campaignName = "B";
+            string campaignName = "abc";
             var newCampaign = new KnativeServiceCreator();
 
             await newCampaign.CreateAsync(campaignName);
