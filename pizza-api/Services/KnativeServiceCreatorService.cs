@@ -40,13 +40,13 @@ public class KnativeServiceCreator
                         {
                             { "autoscaling.knative.dev/minScale", "1" },
                             { "autoscaling.knative.dev/maxScale", "3" },
-                            { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
+                            { "campaignGroup", $"campaign-" }  // Grouping label
                              
                         },
                         labels = new Dictionary<string, string>
                         {
                             { "app.kubernetes.io/part-of", "sms-campaign-processors" },
-                            { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
+                            { "campaignGroup", $"campaign-" }  // Grouping label
                         }
                     },
                     spec = new
