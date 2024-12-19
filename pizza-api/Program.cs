@@ -2,12 +2,16 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using pizza_api.Data;
+using pizza_api.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<pizza_apiContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("pizza_apiContext") ?? throw new InvalidOperationException("Connection string 'pizza_apiContext' not found.")));
 
 // Add services to the container.
+
+builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+//builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
