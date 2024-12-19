@@ -8,109 +8,133 @@ using System.Threading.Tasks;
 
 namespace pizza_api.Services
 {
-public class KnativeServiceCreator
-{
-    private readonly Kubernetes _client;
-
-    public KnativeServiceCreator()
+    public class KnativeServiceCreator
     {
-        var config = KubernetesClientConfiguration.InClusterConfig(); // Use this if running inside Kubernetes
-        _client = new Kubernetes(config);
-    }
+        private readonly Kubernetes _client;
 
-    public async Task CreateAsync(string campaignId)
-    {
-        // Define the Knative Service resource dynamically
-        var knativeService = new
+        public KnativeServiceCreator()
         {
-            apiVersion = "serving.knative.dev/v1",
-            kind = "Service",
-            metadata = new
+            var config = KubernetesClientConfiguration.InClusterConfig(); // Use this if running inside Kubernetes
+            _client = new Kubernetes(config);
+        }
+
+        public async Task CreateAsync(string campaignId)
+        {
+            var serviceName = $"campaign-processor-{campaignId}";
+            var serviceExists = await ServiceExistsAsync(serviceName);
+
+            // Define the Knative Service resource dynamically
+            var knativeService = new
             {
-                name = $"campaign-processor-{campaignId}",
-                @namespace = "pizza-app"
-            },
-            spec = new
-            {
-                template = new
+                apiVersion = "serving.knative.dev/v1",
+                kind = "Service",
+                metadata = new
                 {
-                    metadata = new
+                    name = $"campaign-processor-{campaignId}",
+                    @namespace = "pizza-app"
+                },
+                spec = new
+                {
+                    template = new
                     {
-                        annotations = new Dictionary<string, string>
+                        metadata = new
                         {
-                            { "autoscaling.knative.dev/minScale", "1" },
-                            { "autoscaling.knative.dev/maxScale", "3" },
-                            { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
-                             
-                        },
-                        labels = new Dictionary<string, string>
-                        {
-                            { "app.kubernetes.io/part-of", "sms-campaign-processors" },
-                            { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
-                        }
-                    },
-                    spec = new
-                    {
-                        containers = new[]
-                        {
-                            new
+                            annotations = new Dictionary<string, string>
                             {
-                                name = "campaign-processor",
-                                image = "image-registry.openshift-image-registry.svc:5000/pizza-app/sms-campaign-app",
-                                env = new[]
+                                { "autoscaling.knative.dev/minScale", "1" },
+                                { "autoscaling.knative.dev/maxScale", "3" },
+                                { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
+                             
+                            },
+                            labels = new Dictionary<string, string>
+                            {
+                                { "app.kubernetes.io/part-of", "sms-campaign-processors" },
+                                { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
+                            }
+                        },
+                        spec = new
+                        {
+                            containers = new[]
+                            {
+                                new
                                 {
-                                    new { name = "CAMPAIGN_ID", value = campaignId }
-                                },
-                                ports = new[]
-                                {
-                                    new { containerPort = 8080, protocol = "TCP" }
-                                },
-                                readinessProbe = new
-                                {
-                                    successThreshold = 1,
-                                    tcpSocket = new { port = 8080 }
-                                },
-                                resources = new { }, // You can add specific resource limits if necessary
-                                securityContext = new
-                                {
-                                    allowPrivilegeEscalation = false,
-                                    capabilities = new { drop = new[] { "ALL" } },
-                                    runAsNonRoot = true,
-                                    seccompProfile = new { type = "RuntimeDefault" }
+                                    name = "campaign-processor",
+                                    image = "image-registry.openshift-image-registry.svc:5000/pizza-app/sms-campaign-app",
+                                    env = new[]
+                                    {
+                                        new { name = "CAMPAIGN_ID", value = campaignId }
+                                    },
+                                    ports = new[]
+                                    {
+                                        new { containerPort = 8080, protocol = "TCP" }
+                                    },
+                                    readinessProbe = new
+                                    {
+                                        successThreshold = 1,
+                                        tcpSocket = new { port = 8080 }
+                                    },
+                                    resources = new { }, // You can add specific resource limits if necessary
+                                    securityContext = new
+                                    {
+                                        allowPrivilegeEscalation = false,
+                                        capabilities = new { drop = new[] { "ALL" } },
+                                        runAsNonRoot = true,
+                                        seccompProfile = new { type = "RuntimeDefault" }
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                traffic = new[]
-                {
-                    new
+                    },
+                    traffic = new[]
                     {
-                        latestRevision = true,
-                        percent = 100
+                        new
+                        {
+                            latestRevision = true,
+                            percent = 100
+                        }
                     }
                 }
-            }
-        };
+            };
 
 
-        var response = await _client.CreateNamespacedCustomObjectAsync(
-                    body: knativeService,
+            var response = await _client.CreateNamespacedCustomObjectAsync(
+                        body: knativeService,
+                        group: "serving.knative.dev",
+                        version: "v1",
+                        namespaceParameter: "pizza-app",
+                        plural: "services"
+                    );
+
+                //// Use CreateNamespacedCustomObjectAsync to create the Knative service
+                //await _client.CreateNamespacedCustomObjectAsync(
+                //knativeService,
+                //"serving.knative.dev",   // Group
+                //"v1",                    // Version
+                //"pizza-app",             // Namespace
+                //"services",              // Resource (Kind)
+                //null);                   // Optionally, specify other parameters like `body`, if needed
+        }
+
+        private async Task<bool> ServiceExistsAsync(string serviceName)
+        {
+            try
+            {
+                var service = await _client.GetNamespacedCustomObjectAsync(
                     group: "serving.knative.dev",
                     version: "v1",
                     namespaceParameter: "pizza-app",
-                    plural: "services"
+                    plural: "services",
+                    name: serviceName
                 );
-
-            //// Use CreateNamespacedCustomObjectAsync to create the Knative service
-            //await _client.CreateNamespacedCustomObjectAsync(
-            //knativeService,
-            //"serving.knative.dev",   // Group
-            //"v1",                    // Version
-            //"pizza-app",             // Namespace
-            //"services",              // Resource (Kind)
-            //null);                   // Optionally, specify other parameters like `body`, if needed
+                return true; // Service exists
+            }
+            catch (Exception)
+            {
+                return false; // Service does not exist
+            }
+        }
     }
-}
+
+
 }
 

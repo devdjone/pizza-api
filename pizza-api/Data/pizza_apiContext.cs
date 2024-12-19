@@ -14,6 +14,11 @@ namespace pizza_api.Data
         {
         }
 
-        public DbSet<pizza_api.Models.Pizza> Pizza { get; set; } = default!;
+        public DbSet<Pizza> Pizza { get; set; } = default!;
+        public DbSet<Campaign> Campaign { get; set; } = default!;
+        public DbSet<CampaignRecipient> CampaignRecipient { get; set; } = default!;
+
+
+
     }
 }
