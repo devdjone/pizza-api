@@ -5,6 +5,8 @@ namespace pizza_api.Repository
     public interface ICampaignRepository
     {
         void AddCampaign(Campaign campaign);
+        void AddCampaignRecipients(List<CampaignRecipient> recipients);
+
         void AddCampaigns(IEnumerable<Campaign> campaigns);
         IEnumerable<Campaign> GetAllCampaigns();
         Campaign GetCampaignById(int id);

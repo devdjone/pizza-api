@@ -29,16 +29,17 @@ namespace pizza_api.Controllers
             await Task.Delay(0);
             if (ModelState.IsValid)
             {
-                var newCampaign = new CampaignDataService();
+                //var newCampaign = new CampaignDataService();
                 
-                var data = newCampaign.GenerateCampaignData(cmd.Name,cmd.Rows);
+                //var data = newCampaign.GenerateCampaignData(cmd.Name,cmd.Rows);
 
-                foreach (var item in data)
-                {
-                    _campaignRepository.AddCampaign(item);
+                //_campaignRepository.AddCampaigns(data);
 
-                }
-               
+
+                var loader = new CampaignLoader(_campaignRepository);
+
+                loader.LoadCampaignData(cmd);
+
 
                 return Ok();
             }

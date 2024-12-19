@@ -21,6 +21,8 @@ namespace pizza_api.Models
 
         public string ProcessedBy { get; set; } = default!;
 
+         
+
         public virtual Campaign Campaign { get; set; } = default!;
 
     }

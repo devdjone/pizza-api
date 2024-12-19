@@ -17,7 +17,7 @@ namespace pizza_api.Repository
             _context = context;
         }
 
-        public void AddCampaign(Campaign campaign)
+        public void AddCampaign1(Campaign campaign)
         {
             if (campaign == null)
             {
@@ -36,6 +36,41 @@ namespace pizza_api.Repository
                 throw;
             }
         }
+
+        public void AddCampaign(Campaign campaign)
+        {
+            if (campaign == null)
+            {
+                throw new ArgumentNullException(nameof(campaign));
+            }
+
+            try
+            {
+                // Check if the campaign is already being tracked
+                var existingCampaign = _context.Set<Campaign>().Local.FirstOrDefault(c => c.Id == campaign.Id);
+                if (existingCampaign != null)
+                {
+                    // If already tracked, no need to add, but just update
+                    _context.Entry(existingCampaign).State = EntityState.Modified;
+                }
+                else
+                {
+                    // Otherwise, add the new campaign
+                    _context.Set<Campaign>().Add(campaign);
+                }
+
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle or log exception as needed
+                Console.WriteLine($"Error adding campaign: {ex.Message}");
+                throw;
+            }
+        }
+
+
+
 
         public void AddCampaigns(IEnumerable<Campaign> campaigns)
         {
@@ -74,6 +109,26 @@ namespace pizza_api.Repository
             {
                 _context.Set<Campaign>().Remove(campaign);
                 _context.SaveChanges();
+            }
+        }
+
+        public void AddCampaignRecipients(List<CampaignRecipient> recipients)
+        {
+            if (recipients == null || !recipients.Any())
+            {
+                throw new ArgumentException("CampaignRecipients list cannot be null or empty.", nameof(recipients));
+            }
+
+            try
+            {
+                _context.CampaignRecipient.AddRange(recipients);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle or log exception as needed
+                Console.WriteLine($"Error adding campaign recipients: {ex.Message}");
+                throw;
             }
         }
     }
