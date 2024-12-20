@@ -49,6 +49,7 @@ namespace pizza_api.Controllers
                 // Fetch up to 1000 records with flag "Processed" = false
                 var recipients = await _context.CampaignRecipient
                     .Where(r => r.Sent == false)
+                    .Where(r => r.Campaign.Id == cmd.CampaignIdToRun)
                     .Take(batchSize)
                     .ToListAsync();
 
