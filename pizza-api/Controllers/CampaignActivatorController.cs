@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using pizza_api.Commands;
 using pizza_api.Data;
+using pizza_api.DTO;
 using pizza_api.Models;
 using pizza_api.Repository;
 using pizza_api.Services;
@@ -95,13 +96,23 @@ namespace pizza_api.Controllers
             string path = "https://localhost:44385/CampaignProcessor/process";
 
             var cmd = new ProcessMessageCommand();
+            var dtoList = new List<CampaignRecipientDto>();
             
             foreach (var recipient in recipients)
             {
-
+                var r = new CampaignRecipientDto();
+                r.Id = recipient.Id;
+                r.Email = recipient.Email;
+                r.Phone = recipient.Phone;
+                r.CampaignIdentifier = recipient.CampaignIdentifier;
+                r.Message = recipient.Message;
+                r.Sent = recipient.Sent;
+                r.SentConfirmed = recipient.SentConfirmed;
+                r.ProcessedBy = recipient.ProcessedBy;
+                dtoList.Add(r);
 
             }
-            //cmd.Recipients = recipients;
+             cmd.Recipients = dtoList;
 
             var serializedData = JsonSerializer.Serialize(cmd);
             var content = new StringContent(serializedData, Encoding.UTF8, "application/json");
