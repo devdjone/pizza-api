@@ -36,7 +36,7 @@ namespace pizza_api.Services
             _campaignRepository.AddCampaign(campaign);
 
             // If the number of rows exceeds 1000, insert data in batches
-            if (cmd.Rows > 1000)
+             if (cmd.Rows > 1000)
             {
                 GenerateAndInsertInBatches(newCampaign, campaign, cmd.Rows, 1000);
             }

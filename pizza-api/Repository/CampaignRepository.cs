@@ -131,5 +131,67 @@ namespace pizza_api.Repository
                 throw;
             }
         }
+
+
+        public async Task<List<CampaignRecipient>> GetRecipientsBatch(bool sentStatus, int batchSize)
+        {
+            
+            if (batchSize <= 0)
+                throw new ArgumentException("Batch size must be greater than zero.", nameof(batchSize));
+
+            return await _context.Set<CampaignRecipient>()
+                .Where(r => r.Sent == sentStatus)
+                .Take(batchSize)
+                .ToListAsync();
+        }
+
+
+        public void UpdateCampaignRecipients(List<CampaignRecipient> recipients)
+        {
+            if (recipients == null || !recipients.Any())
+            {
+                throw new ArgumentException("CampaignRecipients list cannot be null or empty.", nameof(recipients));
+            }
+
+            try
+            {
+                foreach (var recipient in recipients)
+                {
+                    var existingRecipient = _context.CampaignRecipient.Find(recipient.Id);
+                    if (existingRecipient != null)
+                    {
+                        _context.Entry(existingRecipient).CurrentValues.SetValues(recipient);
+                    }
+                }
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle or log exception as needed
+                Console.WriteLine($"Error updating campaign recipients: {ex.Message}");
+                throw;
+            }
+        }
+
+        public void UpdateCampaignRecipientsBulk(List<CampaignRecipient> recipients)
+        {
+            if (recipients == null || !recipients.Any())
+            {
+                throw new ArgumentException("CampaignRecipients list cannot be null or empty.", nameof(recipients));
+            }
+
+            try
+            {
+                _context.CampaignRecipient.UpdateRange(recipients);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle or log exception as needed
+                Console.WriteLine($"Error updating campaign recipients: {ex.Message}");
+                throw;
+            }
+        }
+
     }
 }

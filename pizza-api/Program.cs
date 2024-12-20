@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using pizza_api.Data;
 using pizza_api.Repository;
+using pizza_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<pizza_apiContext>(options =>
@@ -11,7 +12,10 @@ builder.Services.AddDbContext<pizza_apiContext>(options =>
 // Add services to the container.
 
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
-//builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddScoped<IMessageLoaderService, MessageLoaderService>();
+builder.Services.AddHttpClient<IMessageLoaderService, MessageLoaderService>();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
