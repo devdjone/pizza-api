@@ -14,5 +14,6 @@ namespace pizza_api.Repository
         void RemoveCampaign(int id);
         void UpdateCampaignRecipients(List<CampaignRecipient> recipients);
         void UpdateCampaignRecipientsBulk(List<CampaignRecipient> recipients);
+        void UpdateCampaignSentConfirmFlag(List<CampaignRecipient> recipients);
     }
 }

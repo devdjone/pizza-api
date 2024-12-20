@@ -218,5 +218,34 @@ namespace pizza_api.Repository
             }
         }
 
+        public void UpdateCampaignSentConfirmFlag(List<CampaignRecipient> recipients)
+        {
+            if (recipients == null || !recipients.Any())
+            {
+                throw new ArgumentException("CampaignRecipients list cannot be null or empty.", nameof(recipients));
+            }
+
+            try
+            {
+                foreach (var recipient in recipients)
+                {
+                    var existingRecipient = _context.CampaignRecipient.Find(recipient.Id);
+                    if (existingRecipient != null)
+                    {
+                        // Update only the SentConfirmed property
+                        existingRecipient.SentConfirmed = recipient.SentConfirmed;
+                    }
+                }
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Handle or log exception as needed
+                Console.WriteLine($"Error updating campaign recipients: {ex.Message}");
+                throw;
+            }
+        }
+
+
     }
 }

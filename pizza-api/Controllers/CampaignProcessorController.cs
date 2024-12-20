@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using pizza_api.Commands;
+using pizza_api.Models;
+using pizza_api.Repository;
 using pizza_api.Services;
 
 namespace pizza_api.Controllers
@@ -8,6 +10,14 @@ namespace pizza_api.Controllers
     [Route("[controller]")]
     public class CampaignProcessorController : Controller
     {
+        private readonly ICampaignRepository _campaignRepository;
+
+        public CampaignProcessorController(ICampaignRepository campaignRepository)
+        {
+            _campaignRepository = campaignRepository;
+        }
+
+
         [HttpPost]
         [Route("process")]
         public async Task<IActionResult> Process([FromBody] ProcessMessageCommand cmd)
@@ -18,17 +28,17 @@ namespace pizza_api.Controllers
             {
 
                 var recipients = cmd.Recipients;
-                //var newCampaign = new CampaignDataService();
+                var recList = new List<CampaignRecipient>();
+                foreach (var recipient in recipients)
+                {
+                    var r = new CampaignRecipient();
+                    r.Id = recipient.Id;
+                    r.SentConfirmed = true;
+                    recList.Add(r);
+                }
 
-                //var data = newCampaign.GenerateCampaignData(cmd.Name,cmd.Rows);
-
-                //_campaignRepository.AddCampaigns(data);
-
-
-                //var loader = new CampaignLoader(_campaignRepository);
-
-                //loader.LoadCampaignData(cmd);
-
+                _campaignRepository.UpdateCampaignSentConfirmFlag(recList);
+                
 
                 return Ok();
             }

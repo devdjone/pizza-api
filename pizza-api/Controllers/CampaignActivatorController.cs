@@ -4,11 +4,6 @@ using pizza_api.Commands;
 using pizza_api.Data;
 using pizza_api.DTO;
 using pizza_api.Models;
-using pizza_api.Repository;
-using pizza_api.Services;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 
@@ -47,7 +42,7 @@ namespace pizza_api.Controllers
         public async Task ProcessCampaignRecipients(ActivateCampaignCommand cmd)
         {
             bool hasMoreRecords = true;
-            int batchSize = 1;
+            int batchSize = 10;
 
             while (hasMoreRecords)
             {
