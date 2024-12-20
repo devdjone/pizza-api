@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using pizza_api.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace pizza_api.Models
+namespace pizza_api.DTO
 {
-    public class CampaignRecipient
+   
+    public class CampaignRecipientDto
     {
-        [Key]
+        
         public int Id { get; set; }
 
         public string Email { get; set; } = default!;
@@ -18,13 +19,12 @@ namespace pizza_api.Models
 
         public bool Sent { get; set; } = default!;
 
-        public bool SentConfirmed { get; set; }= default!;
+        public bool SentConfirmed { get; set; } = default!;
 
         public string ProcessedBy { get; set; } = default!;
 
 
-        [JsonIgnore] // Exclude from serialization
-        public virtual Campaign Campaign { get; set; } = default!;
+        public int CampaignId { get; set; }
 
     }
 }

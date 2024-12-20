@@ -15,16 +15,16 @@ namespace pizza_api.Data
         }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Campaign>()
-                .Property(c => c.Id)
-                .ValueGeneratedOnAdd(); // Ensure EF knows this is an identity column
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Campaign>()
+        //        .Property(c => c.Id)
+        //        .ValueGeneratedOnAdd(); // Ensure EF knows this is an identity column
 
-            modelBuilder.Entity<CampaignRecipient>()
-                .Property(cr => cr.Id)
-                .ValueGeneratedOnAdd();
-        }
+        //    modelBuilder.Entity<CampaignRecipient>()
+        //        .Property(cr => cr.Id)
+        //        .ValueGeneratedOnAdd();
+        //}
 
 
         public DbSet<Pizza> Pizza { get; set; } = default!;

@@ -135,14 +135,39 @@ namespace pizza_api.Repository
 
         public async Task<List<CampaignRecipient>> GetRecipientsBatch(bool sentStatus, int batchSize)
         {
-            
-            if (batchSize <= 0)
-                throw new ArgumentException("Batch size must be greater than zero.", nameof(batchSize));
+            try
+            {
+                if (batchSize <= 0)
+                    throw new ArgumentException("Batch size must be greater than zero.", nameof(batchSize));
 
-            return await _context.Set<CampaignRecipient>()
-                .Where(r => r.Sent == sentStatus)
-                .Take(batchSize)
-                .ToListAsync();
+
+                var dd = await _context.Campaign.ToListAsync();
+
+                var results = await _context.CampaignRecipient
+                    .Where(r => r.Sent == sentStatus)
+                    .Where(r=> r.Campaign.Id == 30)
+                    .Take(batchSize)
+                    .ToListAsync();
+                 
+
+                var result = await (from r in _context.CampaignRecipient
+                                    where r.Sent == sentStatus
+                                    select r)
+                   //.Take(batchSize)
+                   .ToListAsync();
+                return result;
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+           
+
+           
         }
 
 

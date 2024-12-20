@@ -27,7 +27,7 @@
         public async Task ProcessCampaignRecipientsAsync(ActivateCampaignCommand cmd)
         {
             bool hasMoreRecords = true;
-            int batchSize = 100;
+            int batchSize = 10;
 
             while (hasMoreRecords)
             {
@@ -52,7 +52,8 @@
                             recipient.Sent = true;
                         }
 
-                        await _dbContext.SaveChangesAsync();
+                        _campaignRepository.UpdateCampaignRecipients(recipients);
+                        //await _dbContext.SaveChangesAsync();
                     }
                     else
                     {
