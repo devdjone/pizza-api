@@ -26,6 +26,12 @@ namespace pizza_api.Data
         //        .ValueGeneratedOnAdd();
         //}
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CRecipients>()
+                .Property(e => e.Id)
+                .HasDefaultValueSql("NEWSEQUENTIALID()");
+        }
 
         public DbSet<Pizza> Pizza { get; set; } = default!;
         public DbSet<Campaign> Campaign { get; set; } = default!;
