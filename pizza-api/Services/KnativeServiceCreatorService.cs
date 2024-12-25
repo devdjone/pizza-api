@@ -49,7 +49,7 @@ namespace pizza_api.Services
                             labels = new Dictionary<string, string>
                             {
                                 { "app.kubernetes.io/part-of", "sms-campaign-processors" },
-                                { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label
+                                { "campaignGroup", $"campaign-{campaignId}" }  // Grouping label test 
                             }
                         },
                         spec = new
