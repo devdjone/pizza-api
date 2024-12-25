@@ -58,7 +58,7 @@ namespace pizza_api.Controllers
                 if (recipients.Any())
                 {
                     // Post the records to the broker API
-                    var response = await PostToBrokerApiAsync(recipients);
+                    var response = await PostToBrokerApiAsync(recipients, cmd);
 
 
 
@@ -87,10 +87,11 @@ namespace pizza_api.Controllers
             }
         }
 
-        private async Task<HttpResponseMessage> PostToBrokerApiAsync(List<CampaignRecipient> recipients)
+        private async Task<HttpResponseMessage> PostToBrokerApiAsync(List<CampaignRecipient> recipients, ActivateCampaignCommand cmdDetails)
         {
             //string path = "https://localhost:44385/CampaignProcessor/process";
-            string path = "https://pizza-api-git-pizza-app.apps-crc.testing/CampaignProcessor/process";
+            //string path = "https://pizza-api-git-pizza-app.apps-crc.testing/CampaignProcessor/process";
+            string path = cmdDetails.ProcessorUrl;
 
             var cmd = new ProcessMessageCommand();
             var dtoList = new List<CampaignRecipientDto>();

@@ -234,6 +234,7 @@ namespace pizza_api.Repository
                     {
                         // Update only the SentConfirmed property
                         existingRecipient.SentConfirmed = recipient.SentConfirmed;
+                        existingRecipient.ProcessedBy = recipient.ProcessedBy;
                     }
                 }
                 _context.SaveChanges();
