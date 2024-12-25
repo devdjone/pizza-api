@@ -3,6 +3,7 @@ using pizza_api.Commands;
 using pizza_api.Models;
 using pizza_api.Repository;
 using pizza_api.Services;
+using System.Net;
 
 namespace pizza_api.Controllers
 {
@@ -34,6 +35,7 @@ namespace pizza_api.Controllers
                     var r = new CampaignRecipient();
                     r.Id = recipient.Id;
                     r.SentConfirmed = true;
+                    r.ProcessedBy = Dns.GetHostName();
                     recList.Add(r);
                 }
 
