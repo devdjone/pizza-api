@@ -89,7 +89,8 @@ namespace pizza_api.Controllers
 
         private async Task<HttpResponseMessage> PostToBrokerApiAsync(List<CampaignRecipient> recipients)
         {
-            string path = "https://localhost:44385/CampaignProcessor/process";
+            //string path = "https://localhost:44385/CampaignProcessor/process";
+            string path = "https://pizza-api-git-pizza-app.apps-crc.testing/CampaignProcessor/process";
 
             var cmd = new ProcessMessageCommand();
             var dtoList = new List<CampaignRecipientDto>();
