@@ -28,7 +28,7 @@ namespace pizza_api.Services
 
         }
 
-        public bool LoadCampaignData999(CreateCampaignCommand cmd)
+        public bool LoadCampaignDataNotWorking(CreateCampaignCommand cmd)
         {
             var newCampaign = new CampaignDataService();
 

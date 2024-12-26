@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using pizza_api.Data;
+using pizza_api.Migrations;
 using pizza_api.Models;
 using System;
 using System.Collections.Generic;
@@ -121,6 +122,7 @@ namespace pizza_api.Repository
 
             try
             {
+                
                 _context.CampaignRecipient.AddRange(recipients);
                 _context.SaveChanges();
             }
