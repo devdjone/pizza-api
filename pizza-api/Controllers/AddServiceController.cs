@@ -21,5 +21,23 @@ namespace pizza_api.Controllers
             await newCampaign.CreateAsync(campaignName);
             return $"add campaign: {campaignName}";
         }
+
+
+
+        [HttpPost(Name = "RunJob")]
+        public async Task<string> Index2(string campaignId)
+        {
+            //string campaignName = "abc";
+            campaignId = campaignId.ToLower();
+
+            var newCampaign = new OpenShiftJobCreator();
+
+            await newCampaign.CreateAsync(campaignId);
+            return $"add campaign: {campaignId}";
+        }
+
+
+
+
     }
 }
