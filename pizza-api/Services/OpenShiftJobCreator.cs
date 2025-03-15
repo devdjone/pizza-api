@@ -64,7 +64,7 @@ namespace pizza_api.Services
                                 new V1Container
                                 {
                                     Name = "campaign-processor",
-                                    Image = "image-registry.openshift-image-registry.svc:5000/pizza-app/sms-campaign-app",
+                                    Image = "image-registry.openshift-image-registry.svc:5000/pizza-app/sms-campaign-app:latest",
                                     Env = new List<V1EnvVar>
                                     {
                                         new V1EnvVar { Name = "CAMPAIGN_ID", Value = campaignId }
@@ -85,6 +85,8 @@ namespace pizza_api.Services
                                         RunAsNonRoot = true,
                                         SeccompProfile = new V1SeccompProfile { Type = "RuntimeDefault" }
                                     }
+
+                                    //activeDeadlineSeconds 
                                 }
                             }
                         }
@@ -109,3 +111,35 @@ namespace pizza_api.Services
         }
     }
 }
+
+
+
+//permission in openshift   in admin >> user management create role
+
+//apiVersion: rbac.authorization.k8s.io / v1
+//kind: Role
+//metadata:
+//  name: job - creator
+//  namespace: pizza-app
+//rules:
+//  - apiGroups: ["batch"]
+//    resources: ["jobs"]
+//    verbs: ["create", "get", "list", "watch"]
+
+
+//create role binding
+
+//apiVersion: rbac.authorization.k8s.io / v1
+//kind: RoleBinding
+//metadata:
+//  name: job - creator - binding
+//  namespace: pizza-app
+//subjects:
+//  - kind: ServiceAccount
+//    name: default
+//    namespace: pizza-app
+//roleRef:
+//  kind: Role
+//  name: job-creator
+//  apiGroup: rbac.authorization.k8s.io
+
