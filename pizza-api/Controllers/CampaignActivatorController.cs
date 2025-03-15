@@ -25,6 +25,10 @@ namespace pizza_api.Controllers
 
         [HttpPost]
         [Route("create")]
+
+        //dotnet add package Swashbuckle.AspNetCore.Annotations
+
+        //[SwaggerOperation(Summary = "Retrieves a list of users", Description = "This endpoint fetches all users.")]
         public async Task<IActionResult> Create([FromBody] ActivateCampaignCommand cmd)
         {
 
@@ -47,12 +51,20 @@ namespace pizza_api.Controllers
             while (hasMoreRecords)
             {
                 // Fetch up to 1000 records with flag "Processed" = false
+                //var recipients = await _context.CampaignRecipient
+                //    .Where(r => r.Sent == false)
+                //    .Where(r => r.Campaign.Id == cmd.CampaignIdToRun)
+                //    .Take(batchSize)
+                //    .ToListAsync();
+
+
+                var pageNumber = 1; // Example page number
                 var recipients = await _context.CampaignRecipient
-                    .Where(r => r.Sent == false)
-                    .Where(r => r.Campaign.Id == cmd.CampaignIdToRun)
+                    .Where(r => !r.Sent && r.Campaign.Id == cmd.CampaignIdToRun)
+                    .OrderBy(r => r.Id)
+                    .Skip((pageNumber - 1) * batchSize)
                     .Take(batchSize)
                     .ToListAsync();
-
 
 
                 if (recipients.Any())
